@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Your Adrenal Profile? | Joria Integrative Healing</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:transparent}
+.wrap{font-family:'Montserrat',sans-serif;padding:28px 20px;max-width:600px;margin:0 auto}
+.quiz-header{margin-bottom:24px}
+.quiz-title{font-size:16px;font-weight:700;color:#6E1F24;margin-bottom:8px}
+.quiz-intro{font-size:11px;font-weight:400;line-height:1.8;color:#3d2828;padding:14px 16px;background:#F4F3F3;border-radius:10px;border-left:3px solid #9C6A6A}
+.progress-bar-wrap{margin:20px 0 8px;height:6px;background:#F0EDE4;border-radius:10px;overflow:hidden}
+.progress-bar{height:100%;background:#9C6A6A;border-radius:10px;transition:width 0.4s ease}
+.progress-label{font-size:9px;font-weight:600;color:#9C6A6A;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px}
+.q-block{display:none}
+.q-block.active{display:block}
+.q-text{font-size:13px;font-weight:600;color:#3d2828;line-height:1.6;margin-bottom:16px}
+.q-note{font-size:10px;font-weight:400;color:#9C6A6A;margin-top:-10px;margin-bottom:14px;font-style:italic}
+.opt{display:block;width:100%;text-align:left;border-radius:10px;padding:12px 16px;margin-bottom:8px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:500;border:1px solid #D4B8B8;background:#F4F3F3;color:#3d2828;transition:background 0.15s,border-color 0.15s}
+.opt:hover{background:#F7ECEC;border-color:#9C6A6A}
+.opt.selected{background:#F7ECEC;border-color:#6E1F24;color:#6E1F24}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.btn{border-radius:8px;padding:10px 20px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border:none;transition:opacity 0.15s}
+.btn:hover{opacity:0.85}
+.btn-back{background:#F0EDE4;color:#5A5A2F}
+.btn-next{background:#6E1F24;color:#fff}
+.btn-next:disabled{opacity:0.4;cursor:not-allowed}
+.result{display:none}
+.result-badge{border-radius:10px;padding:20px;margin-bottom:16px;border-left:4px solid}
+.result-archetype{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.result-title{font-size:18px;font-weight:700;margin-bottom:10px}
+.result-desc{font-size:11px;font-weight:400;line-height:1.8}
+.result-section{margin-top:20px}
+.result-section-title{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px}
+.q-item{font-size:11px;font-weight:400;line-height:1.7;color:#3d2828;padding:10px 14px;background:#F4F3F3;border-radius:8px;margin-bottom:6px;border-left:2px solid #9C6A6A}
+.retake-btn{margin-top:20px;display:block;width:100%;border-radius:8px;padding:12px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #9C6A6A;background:transparent;color:#9C6A6A;text-align:center;transition:background 0.15s}
+.retake-btn:hover{background:#F7ECEC}
+.disclaimer{font-size:9px;text-align:center;margin-top:24px;opacity:0.45;letter-spacing:0.02em;color:#5A5A2F;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="quiz-header">
+  <div class="quiz-title">What's your adrenal profile?</div>
+  <div class="quiz-intro">This quiz will help you identify your adrenal stress pattern. Based on your responses, you will receive one of six profiles. Each profile includes a description and questions to bring to your care team. This quiz is educational. It is not a clinical diagnosis. Use it as a starting point for self-understanding and provider conversation.</div>
+</div>
+
+<div class="progress-bar-wrap" id="progress-wrap"><div class="progress-bar" id="progress" style="width:0%"></div></div>
+<div class="progress-label" id="progress-label">Question 1 of 13</div>
+
+<div id="questions-wrap">
+
+<div class="q-block active" id="q0">
+  <div class="q-text">1. How do you typically feel when you wake up in the morning?</div>
+  <button class="opt" onclick="answer(0,'flux',this)">I feel fine most days, alert and ready to go</button>
+  <button class="opt" onclick="answer(0,'kindling',this)">I feel wired, like I am already running before I have gotten up</button>
+  <button class="opt" onclick="answer(0,'inverter',this)">I struggle to get going no matter how much sleep I got</button>
+  <button class="opt" onclick="answer(0,'ember',this)">I am exhausted every single morning. Sleep does not seem to restore me</button>
+</div>
+
+<div class="q-block" id="q1">
+  <div class="q-text">2. How would you describe your energy across the day?</div>
+  <button class="opt" onclick="answer(1,'flow',this)">Relatively steady. I have good energy most of the day</button>
+  <button class="opt" onclick="answer(1,'pressure',this)">I push through most of the day but crash hard by evening</button>
+  <button class="opt" onclick="answer(1,'inverter',this)">I feel flat or foggy in the morning, then get a second wind at night</button>
+  <button class="opt" onclick="answer(1,'ember',this)">I have very little energy from the moment I wake up and it does not recover</button>
+</div>
+
+<div class="q-block" id="q2">
+  <div class="q-text">3. How is your sleep?</div>
+  <button class="opt" onclick="answer(2,'flow',this)">Generally good. I fall asleep easily and wake feeling rested</button>
+  <button class="opt" onclick="answer(2,'kindling',this)">I have trouble falling asleep, my mind is often still running at bedtime</button>
+  <button class="opt" onclick="answer(2,'inverter',this)">I feel most awake late at night and dread mornings</button>
+  <button class="opt" onclick="answer(2,'ember',this)">I wake between 2 and 4am often, or sleep long hours and still feel unrefreshed</button>
+</div>
+
+<div class="q-block" id="q3">
+  <div class="q-text">4. How often do you feel anxious or on edge?</div>
+  <button class="opt" onclick="answer(3,'flow',this)">Rarely. I generally feel grounded and steady</button>
+  <button class="opt" onclick="answer(3,'kindling',this)">Often. I notice background anxiety even when nothing specific is happening</button>
+  <button class="opt" onclick="answer(3,'pressure',this)">I feel tension and pressure but it reads more like stress than anxiety</button>
+  <button class="opt" onclick="answer(3,'ember',this)">I used to feel anxious but now I mostly just feel numb or flat</button>
+</div>
+
+<div class="q-block" id="q4">
+  <div class="q-text">5. What is your relationship to stress right now?</div>
+  <button class="opt" onclick="answer(4,'flow',this)">I feel like I am managing it reasonably well</button>
+  <button class="opt" onclick="answer(4,'kindling',this)">I feel like I am in the middle of a stressful period and my body is responding to it</button>
+  <button class="opt" onclick="answer(4,'pressure',this)">I have been under sustained pressure for a long time and am still pushing through</button>
+  <button class="opt" onclick="answer(4,'ember',this)">I have been running on empty for so long I am not sure what not-stressed feels like</button>
+</div>
+
+<div class="q-block" id="q5">
+  <div class="q-text">6. Do you experience spotting before your period begins, or a luteal phase shorter than 10 days?</div>
+  <div class="q-note">Skip this question if you are not currently cycling or tracking your cycle.</div>
+  <button class="opt" onclick="answer(5,'flow',this)">No, my luteal phase seems adequate and I do not notice pre-period spotting</button>
+  <button class="opt" onclick="answer(5,'kindling',this)">Sometimes. I notice occasional spotting or my luteal phase feels short</button>
+  <button class="opt" onclick="answer(5,'pressure',this)">Yes, I regularly have spotting before my period and my luteal phase is short</button>
+  <button class="opt" onclick="answer(5,'ember',this)">Yes, and my cycles have also become irregular or unpredictable</button>
+</div>
+
+<div class="q-block" id="q6">
+  <div class="q-text">7. How are your salt cravings?</div>
+  <button class="opt" onclick="answer(6,'flow',this)">Normal. I do not notice a strong drive for salty foods</button>
+  <button class="opt" onclick="answer(6,'kindling',this)">Mild. I enjoy salty foods but do not feel like I need them</button>
+  <button class="opt" onclick="answer(6,'inverter',this)">Moderate. I reach for salty foods often, especially in the afternoon</button>
+  <button class="opt" onclick="answer(6,'ember',this)">Strong. I crave salt consistently and sometimes feel dizzy when I stand up quickly</button>
+</div>
+
+<div class="q-block" id="q7">
+  <div class="q-text">8. How does your body respond to exercise right now?</div>
+  <button class="opt" onclick="answer(7,'flow',this)">Well. I feel energized after workouts and recover without difficulty</button>
+  <button class="opt" onclick="answer(7,'pressure',this)">I can push through intense workouts but notice I am slower to recover than I used to be</button>
+  <button class="opt" onclick="answer(7,'flux',this)">It varies a lot. Some days I feel strong, other days even a moderate workout wipes me out</button>
+  <button class="opt" onclick="answer(7,'ember',this)">I feel worse after exercise, not better. Recovery takes much longer than it should</button>
+</div>
+
+<div class="q-block" id="q8">
+  <div class="q-text">9. How consistent are your symptoms day to day?</div>
+  <button class="opt" onclick="answer(8,'kindling',this)">Pretty consistent. I feel the same kind of activated or anxious most days</button>
+  <button class="opt" onclick="answer(8,'pressure',this)">Fairly consistent. The fatigue and pressure are pretty much always there</button>
+  <button class="opt" onclick="answer(8,'flux',this)">Very inconsistent. I can feel completely different from one day to the next</button>
+  <button class="opt" onclick="answer(8,'ember',this)">Consistently depleted. The exhaustion does not really lift</button>
+</div>
+
+<div class="q-block" id="q9">
+  <div class="q-text">10. Do you experience symptoms of androgen excess like acne along the jawline or chin, or unexplained hair thinning on the scalp?</div>
+  <button class="opt" onclick="answer(9,'flow',this)">No, I do not notice these patterns</button>
+  <button class="opt" onclick="answer(9,'kindling',this)">Mildly. Some hormonal breakouts but nothing significant</button>
+  <button class="opt" onclick="answer(9,'pressure',this)">Yes, and they seem to worsen during high-stress periods</button>
+  <button class="opt" onclick="answer(9,'ember',this)">I have noticed hair thinning and hormonal skin changes but they feel less intense now than they used to</button>
+</div>
+
+<div class="q-block" id="q10">
+  <div class="q-text">11. How would you describe your libido?</div>
+  <button class="opt" onclick="answer(10,'flow',this)">Present and relatively consistent</button>
+  <button class="opt" onclick="answer(10,'kindling',this)">Variable. It drops when I am stressed but comes back</button>
+  <button class="opt" onclick="answer(10,'pressure',this)">Low. It has been reduced for a while and I notice it</button>
+  <button class="opt" onclick="answer(10,'ember',this)">Very low or absent. I do not notice drive much at all</button>
+</div>
+
+<div class="q-block" id="q11">
+  <div class="q-text">12. How do you feel in the 24 to 48 hours after a high-stress event or intense workout?</div>
+  <button class="opt" onclick="answer(11,'flow',this)">I recover well. I might be tired but bounce back quickly</button>
+  <button class="opt" onclick="answer(11,'pressure',this)">I notice a dip but push through it</button>
+  <button class="opt" onclick="answer(11,'flux',this)">It depends on the week. Sometimes I recover fine, sometimes I crash</button>
+  <button class="opt" onclick="answer(11,'ember',this)">I consistently feel worse for days after anything demanding. Recovery is slow and incomplete</button>
+</div>
+
+<div class="q-block" id="q12">
+  <div class="q-text">13. When you read about allostatic load, the idea that cumulative stress including systemic stress like racism, economic strain, or medical trauma has a measurable biological cost, did it resonate with your experience?</div>
+  <button class="opt" onclick="answer(12,'flow',this)">Somewhat, but my stress load has felt manageable overall</button>
+  <button class="opt" onclick="answer(12,'kindling',this)">Yes. I am in a stressful period but it feels relatively recent or situational</button>
+  <button class="opt" onclick="answer(12,'pressure',this)">Yes. I have been carrying a significant load for years and my body reflects it</button>
+  <button class="opt" onclick="answer(12,'ember',this)">Deeply. The stress I have carried has been long-term, layered, and largely invisible to my care team</button>
+</div>
+
+</div>
+
+<div class="nav-row" id="nav-row">
+  <button class="btn btn-back" id="btn-back" onclick="goBack()" style="visibility:hidden">Back</button>
+  <button class="btn btn-next" id="btn-next" onclick="goNext()" disabled>Next</button>
+</div>
+
+<div class="result" id="result"></div>
+
+<div class="disclaimer" id="disclaimer">This quiz is for educational purposes only. It is not a clinical diagnosis. Please work with a licensed provider for individualized care.</div>
+</div>
+
+<script>
+var total=13,current=0,answers=new Array(total).fill(null);
+var archetypes={
+  kindling:{label:'The Kindling',sublabel:'The Alarm Pattern',color:'#F7ECEC',border:'#9C6A6A',titleColor:'#6E1F24',desc:'Your system is in early activation. Cortisol is elevated, the nervous system is running hot, and your body is responding to something, whether that is visible stress or the quieter, cumulative kind. The good news is that this is the most responsive stage. You are not depleted yet. You are at a point where relatively targeted support can make a significant difference before the pattern entrenches.\n\nIf you are actively trying to conceive or preparing to, this is the moment to take the stress load seriously as a biological input, not just a lifestyle inconvenience. The alarm pattern tells us the HPA axis is activated, which means the HPO axis is already navigating some interference. Supporting your nervous system now is a direct act of fertility care.',questions:['Can we check my morning cortisol or run a salivary cortisol panel to get a picture of my full daily curve?','Has my DHEA-S been checked recently, and where does it fall relative to optimal for my age?','Are there any signs in my current labs that my cortisol level may be affecting my hormonal picture, particularly my progesterone or LH?','Given where I am in my fertility journey, what lifestyle or nutritional supports would you recommend starting with?','Are there any adaptogenic herbs or supplements you would feel comfortable supporting me in trying at this stage?']},
+  pressure:{label:'The Pressure Cooker',sublabel:'The Resistance Pattern',color:'#FDF3E0',border:'#A06A2A',titleColor:'#6E3A10',desc:'Your body has been in resistance mode, working hard to keep up with demand, compensating, adapting. Cortisol has been elevated long enough that DHEA could be starting to drop, and the hormonal downstream effects are likely showing up in your cycle. This stage often looks functional on the outside. People here are usually still getting things done, still showing up. But the internal picture tells a different story, and the body is communicating it clearly if you know how to listen.\n\nThe resistance pattern is one of the most important stages to catch in a fertility context, because it is where the HPA-HPO cascade is most actively running. If you have been experiencing short luteal phases, spotting before your period, or cycle irregularities without a clear diagnosis, the HPA axis deserves a serious look.',questions:['Can we run both cortisol and DHEA-S together so we can look at that ratio specifically?','Has my progesterone been checked in the mid-luteal phase, and if so, where does it land?','Is there any sign of androgen excess in my labs that could be connected to elevated adrenal output rather than ovarian origin?','What does my cortisol-to-DHEA ratio tell us about where I am in the stress adaptation curve?','Are there targeted interventions, nutritional, botanical, or otherwise, that are appropriate for a resistance-phase pattern specifically?']},
+  inverter:{label:'The Inverter',sublabel:'The Rhythm-Disrupted Pattern',color:'#F0EDE4',border:'#5A5A2F',titleColor:'#3A3A18',desc:'Your cortisol rhythm has shifted: low when it should be rising, elevated when it should be winding down. You may have come to think of yourself as a night person, or someone who just cannot wake up in the morning, or someone who gets a second wind right when you are supposed to be sleeping. This is not a personality trait. It is a physiological pattern, and it has real implications for your hormonal health and your cycle.\n\nCircadian rhythm and reproductive health are more connected than most fertility conversations acknowledge. The LH surge that triggers ovulation is partly governed by the same hypothalamic timing systems that regulate your cortisol rhythm. If your ovulation seems to come late in your cycle or your fertile window is hard to predict, the rhythm disruption is worth investigating.',questions:['Is a 4-point salivary cortisol test or a DUTCH panel something you could support me in running, so we can actually see the shape of my cortisol curve across the day?','Could my inverted cortisol rhythm be affecting my sleep quality in ways that compound the hormonal disruption?','Is there any connection between my cortisol curve and the timing or quality of my LH surge?','What does my melatonin production look like, and is there a circadian rhythm piece worth addressing here?','Are there supports you would recommend specifically for resetting the diurnal cortisol pattern, including sleep hygiene, light exposure, or targeted supplements?']},
+  ember:{label:'The Ember',sublabel:'The Exhaustion Pattern',color:'#F4F3F3',border:'#9C6A6A',titleColor:'#3d2828',desc:'This is the late-stage, depleted pattern. Cortisol and DHEA are both low. The adrenal glands have been asked to give for a long time, and the reserves are showing it. For many people who land here, that load has included not just personal stress but the cumulative weight of systemic stress, medical experiences that were not affirming, and a body that has been navigating more than any intake form has ever captured. Recovery is possible. It takes time and the right support. But it starts with being honest about where you actually are.\n\nIf you are actively trying to conceive and you are in the exhaustion pattern, you deserve a care team that is looking at the full picture. Adrenal recovery is real and achievable, but rarely fast. Rest, nourishment, and working with a provider who understands functional adrenal patterns are all part of this.',questions:['Can we get a full adrenal picture, including morning cortisol or a DUTCH panel, DHEA-S, and ideally the cortisol awakening response, so we can see how depleted the system actually is?','Given that both cortisol and DHEA may be low, are there any hormonal support options, including DHEA supplementation, that would be appropriate to discuss?','How does my adrenal status affect my ovarian reserve or egg quality, and is that something worth evaluating alongside my cortisol picture?','What is a realistic timeline for adrenal recovery, and how does that fit into my fertility planning?','Are there practitioners you would recommend who specialize in this pattern in a reproductive health context?']},
+  flux:{label:'The Flux',sublabel:'The Mixed or Shifting Pattern',color:'#F7ECEC',border:'#9C6A6A',titleColor:'#6E1F24',desc:'Your experience does not stay in one place. Some days the pattern looks like alarm, some days it looks like exhaustion, some weeks you feel regulated and others you feel like you are starting over. This is one of the most common patterns and one of the least validated in clinical settings, because it does not fit neatly into a category. But it is real, it is physiologically explainable, and it deserves the same attention as any of the more fixed patterns.\n\nThe flux pattern often reflects a system that is sensitive to inputs where sleep, food, stress, and cycle phase all move the needle noticeably. That sensitivity is useful information. It tells you that your HPA axis is responsive, which means lifestyle and nutritional interventions are likely to have a meaningful effect. The goal is to reduce the variability of inputs so the system has a more stable foundation to work from.',questions:['Given that my symptoms shift, would a multi-point salivary cortisol test or a DUTCH panel give us better information than a single serum draw?','Are there particular triggers, like sleep disruption, undereating, or high-stress periods, that might be pushing my system between stages, and how do we account for that in a support plan?','Could my shifting pattern be connected to where I am in my cycle, and is there a hormonal fluctuation piece worth tracking alongside the adrenal picture?','What would a flexible, responsive support plan look like for someone whose pattern is not fixed?','How do we know if the pattern is stabilizing over time, and what markers would tell us that?']},
+  flow:{label:'The Flow',sublabel:'The Regulated Pattern',color:'#F0EDE4',border:'#5A5A2F',titleColor:'#3A3A18',desc:'Your adrenal system appears to be operating in a regulated pattern. Cortisol is rising when it should, dropping when it should, and your body\'s stress response is activating and returning to baseline the way it is designed to. In a world that runs on chronic stress, a regulated HPA axis is not a given. It is something worth understanding and protecting.\n\nFertility journeys, especially those that involve assisted reproductive technology, significant cycle monitoring, or prolonged trying, carry their own stress load. People who start from a regulated place can shift patterns over time. Your care plan does not need to be built around fixing something. It can be built around protecting something.',questions:['Even though my adrenal pattern looks regulated, are there any markers in my reproductive hormone panel that suggest the HPO axis might still benefit from support?','What does my baseline look like for cortisol and DHEA-S, so we have a reference point if things shift in the future?','Are there any preconception or fertility-specific nutritional supports that would help me maintain this foundation as I move into a higher-demand phase?','Are there signs in my current picture, labs, symptoms, or cycle patterns, that I should monitor as potential early indicators of HPA axis disruption?','What does protecting adrenal resilience look like in the context of fertility treatments, if that becomes part of my path?']}
+};
+function answer(qIndex,archetype,el){answers[qIndex]=archetype;document.querySelectorAll('#q'+qIndex+' .opt').forEach(function(o){o.classList.remove('selected')});el.classList.add('selected');document.getElementById('btn-next').disabled=false;if(qIndex===total-1){document.getElementById('btn-next').textContent='See my result'}}
+function updateProgress(){document.getElementById('progress').style.width=(current/(total-1)*100)+'%';document.getElementById('progress-label').textContent='Question '+(current+1)+' of '+total}
+function goNext(){if(answers[current]===null)return;if(current<total-1){document.getElementById('q'+current).classList.remove('active');current++;document.getElementById('q'+current).classList.add('active');document.getElementById('btn-next').disabled=answers[current]===null;document.getElementById('btn-next').textContent=current===total-1?'See my result':'Next';document.getElementById('btn-back').style.visibility='visible';updateProgress()}else{showResult()}}
+function goBack(){if(current>0){document.getElementById('q'+current).classList.remove('active');current--;document.getElementById('q'+current).classList.add('active');document.getElementById('btn-next').disabled=false;document.getElementById('btn-next').textContent=current===total-1?'See my result':'Next';if(current===0)document.getElementById('btn-back').style.visibility='hidden';updateProgress()}}
+function showResult(){var counts={kindling:0,pressure:0,inverter:0,ember:0,flux:0,flow:0};answers.forEach(function(a){if(a)counts[a]++});var winner=Object.keys(counts).reduce(function(a,b){return counts[a]>=counts[b]?a:b});var a=archetypes[winner];document.getElementById('questions-wrap').style.display='none';document.getElementById('nav-row').style.display='none';document.getElementById('progress-wrap').style.display='none';document.getElementById('progress-label').style.display='none';var qHtml=a.questions.map(function(q){return'<div class="q-item">'+q+'</div>'}).join('');var descParas=a.desc.split('\n\n').map(function(p){return'<p style="margin-bottom:10px">'+p+'</p>'}).join('');document.getElementById('result').innerHTML='<div class="result-badge" style="background:'+a.color+';border-color:'+a.border+'"><div class="result-archetype" style="color:'+a.border+'">Your adrenal profile</div><div class="result-title" style="color:'+a.titleColor+'">'+a.label+'</div><div class="result-archetype" style="color:'+a.border+';margin-bottom:12px">'+a.sublabel+'</div><div class="result-desc" style="color:'+a.titleColor+'">'+descParas+'</div></div><div class="result-section"><div class="result-section-title" style="color:#9C6A6A">Questions to bring to your care team</div>'+qHtml+'</div><button class="retake-btn" onclick="retake()">Retake the quiz</button>';document.getElementById('result').style.display='block'}
+function retake(){answers=new Array(total).fill(null);current=0;document.querySelectorAll('.q-block').forEach(function(q){q.classList.remove('active');q.querySelectorAll('.opt').forEach(function(o){o.classList.remove('selected')})});document.getElementById('q0').classList.add('active');document.getElementById('result').style.display='none';document.getElementById('questions-wrap').style.display='block';document.getElementById('nav-row').style.display='flex';document.getElementById('progress-wrap').style.display='block';document.getElementById('progress-label').style.display='block';document.getElementById('btn-next').disabled=true;document.getElementById('btn-next').textContent='Next';document.getElementById('btn-back').style.visibility='hidden';document.getElementById('progress').style.width='0%';document.getElementById('progress-label').textContent='Question 1 of 13'}
+</script>
+</body>
+</html>
