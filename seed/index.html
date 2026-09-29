@@ -358,11 +358,6 @@
       <ul id="resultProvider"></ul>
     </div>
 
-    <div class="block">
-      <h3>Integrating this into your fertility path</h3>
-      <p id="resultIntegration"></p>
-    </div>
-
     <button class="btn-next retake" id="retakeBtn">Take the Quiz Again</button>
     <div class="disclaimer">For educational purposes only. This content is not medical advice.</div>
   </div>
@@ -705,7 +700,7 @@ function showResult(){
   }
 
   const r = results[topKey];
-  document.getElementById('resultTag').textContent = r.sub;
+  document.getElementById('resultTag').textContent = 'Your stress pattern';
   document.getElementById('resultName').textContent = r.name;
   document.getElementById('resultSub').textContent = r.sub;
   document.getElementById('resultDesc').textContent = r.desc;
@@ -717,8 +712,6 @@ function showResult(){
     li.textContent = q;
     providerList.appendChild(li);
   });
-
-  document.getElementById('resultIntegration').textContent = r.integration;
 
   screenQuiz.classList.add('hidden');
   screenResult.classList.remove('hidden');
