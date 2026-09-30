@@ -370,12 +370,12 @@ const questions = [
     "text": "How do you typically feel when you wake up in the morning?",
     "options": [
       [
-        "E",
-        "I feel fine most days, alert and ready to go"
-      ],
-      [
         "A",
         "I feel wired, like I am already running before I have gotten up"
+      ],
+      [
+        "B",
+        "I get up and get going, but only because I push myself to"
       ],
       [
         "C",
@@ -384,6 +384,14 @@ const questions = [
       [
         "D",
         "I am exhausted every single morning. Sleep does not seem to restore me"
+      ],
+      [
+        "E",
+        "It changes day to day. Some mornings I feel fine, others I can barely get up"
+      ],
+      [
+        "F",
+        "I feel fine most days, alert and ready to go"
       ]
     ]
   },
@@ -391,8 +399,8 @@ const questions = [
     "text": "How would you describe your energy across the day?",
     "options": [
       [
-        "F",
-        "Relatively steady. I have good energy most of the day"
+        "A",
+        "I feel keyed up and restless most of the day, even when I am tired"
       ],
       [
         "B",
@@ -405,6 +413,14 @@ const questions = [
       [
         "D",
         "I have very little energy from the moment I wake up and it does not recover"
+      ],
+      [
+        "E",
+        "It is unpredictable. Some days are steady, other days I crash for no clear reason"
+      ],
+      [
+        "F",
+        "Relatively steady. I have good energy most of the day"
       ]
     ]
   },
@@ -412,12 +428,12 @@ const questions = [
     "text": "How is your sleep?",
     "options": [
       [
-        "F",
-        "Generally good. I fall asleep easily and wake feeling rested"
-      ],
-      [
         "A",
         "I have trouble falling asleep, my mind is often still running at bedtime"
+      ],
+      [
+        "B",
+        "I fall asleep because I am worn out, but I do not wake up feeling rested"
       ],
       [
         "C",
@@ -426,16 +442,20 @@ const questions = [
       [
         "D",
         "I wake between 2 and 4am often, or sleep long hours and still feel unrefreshed"
+      ],
+      [
+        "E",
+        "Some nights are good and some are rough, with no clear pattern"
+      ],
+      [
+        "F",
+        "Generally good. I fall asleep easily and wake feeling rested"
       ]
     ]
   },
   {
     "text": "How often do you feel anxious or on edge?",
     "options": [
-      [
-        "F",
-        "Rarely. I generally feel grounded and steady"
-      ],
       [
         "A",
         "Often. I notice background anxiety even when nothing specific is happening"
@@ -445,18 +465,26 @@ const questions = [
         "I feel tension and pressure but it reads more like stress than anxiety"
       ],
       [
+        "C",
+        "Mornings feel heavy and low, and my mind gets busy and restless at night"
+      ],
+      [
         "D",
         "I used to feel anxious but now I mostly just feel numb or flat"
+      ],
+      [
+        "E",
+        "It swings. Some days I feel calm, other days on edge, and I cannot always tell why"
+      ],
+      [
+        "F",
+        "Rarely. I generally feel grounded and steady"
       ]
     ]
   },
   {
     "text": "What is your relationship to stress right now?",
     "options": [
-      [
-        "F",
-        "I feel like I am managing it reasonably well"
-      ],
       [
         "A",
         "I feel like I am in the middle of a stressful period and my body is responding to it"
@@ -466,18 +494,26 @@ const questions = [
         "I have been under sustained pressure for a long time and am still pushing through"
       ],
       [
+        "C",
+        "Stress hits hardest late in the day. That is when my mind will not shut off"
+      ],
+      [
         "D",
         "I have been running on empty for so long I am not sure what not-stressed feels like"
+      ],
+      [
+        "E",
+        "It depends on the week. I go back and forth between coping well and feeling overwhelmed"
+      ],
+      [
+        "F",
+        "I feel like I am managing it reasonably well"
       ]
     ]
   },
   {
     "text": "Do you experience spotting before your period begins, or a luteal phase shorter than 10 days?",
     "options": [
-      [
-        "F",
-        "No, my luteal phase seems adequate and I do not notice pre-period spotting"
-      ],
       [
         "A",
         "Sometimes. I notice occasional spotting or my luteal phase feels short"
@@ -487,8 +523,20 @@ const questions = [
         "Yes, I regularly have spotting before my period and my luteal phase is short"
       ],
       [
+        "C",
+        "My cycle seems okay, but my symptoms feel worse when my sleep schedule is off"
+      ],
+      [
         "D",
         "Yes, and my cycles have also become irregular or unpredictable"
+      ],
+      [
+        "E",
+        "It changes from cycle to cycle. Some cycles feel normal and some are short or spotty"
+      ],
+      [
+        "F",
+        "No, my luteal phase seems adequate and I do not notice pre-period spotting"
       ]
     ],
     "note": "Skip this question if you are not currently cycling or tracking your cycle.",
@@ -498,12 +546,12 @@ const questions = [
     "text": "How are your salt cravings?",
     "options": [
       [
-        "F",
-        "Normal. I do not notice a strong drive for salty foods"
-      ],
-      [
         "A",
         "Mild. I enjoy salty foods but do not feel like I need them"
+      ],
+      [
+        "B",
+        "I reach for salty snacks mostly when I am pushing through a long, stressful day"
       ],
       [
         "C",
@@ -512,6 +560,14 @@ const questions = [
       [
         "D",
         "Strong. I crave salt consistently and sometimes feel dizzy when I stand up quickly"
+      ],
+      [
+        "E",
+        "It comes and goes. Some weeks I crave salt a lot, other weeks not at all"
+      ],
+      [
+        "F",
+        "Normal. I do not notice a strong drive for salty foods"
       ]
     ]
   },
@@ -519,20 +575,28 @@ const questions = [
     "text": "How does your body respond to exercise right now?",
     "options": [
       [
-        "F",
-        "Well. I feel energized after workouts and recover without difficulty"
+        "A",
+        "I feel wired or jittery after workouts and it is hard to settle down"
       ],
       [
         "B",
         "I can push through intense workouts but notice I am slower to recover than I used to be"
       ],
       [
-        "E",
-        "It varies a lot. Some days I feel strong, other days even a moderate workout wipes me out"
+        "C",
+        "Morning workouts feel impossible. I feel much stronger later in the day"
       ],
       [
         "D",
         "I feel worse after exercise, not better. Recovery takes much longer than it should"
+      ],
+      [
+        "E",
+        "It varies a lot. Some days I feel strong, other days even a moderate workout wipes me out"
+      ],
+      [
+        "F",
+        "Well. I feel energized after workouts and recover without difficulty"
       ]
     ]
   },
@@ -548,22 +612,26 @@ const questions = [
         "Fairly consistent. The fatigue and pressure are pretty much always there"
       ],
       [
-        "E",
-        "Very inconsistent. I can feel completely different from one day to the next"
+        "C",
+        "Consistent, but flipped. Mornings are always hard and evenings are always better"
       ],
       [
         "D",
         "Consistently depleted. The exhaustion does not really lift"
+      ],
+      [
+        "E",
+        "Very inconsistent. I can feel completely different from one day to the next"
+      ],
+      [
+        "F",
+        "Pretty consistent, and mostly in a good way. I feel steady most days"
       ]
     ]
   },
   {
     "text": "Do you experience symptoms of androgen excess like acne along the jawline or chin, or unexplained hair thinning on the scalp?",
     "options": [
-      [
-        "F",
-        "No, I do not notice these patterns"
-      ],
       [
         "A",
         "Mildly. Some hormonal breakouts but nothing significant"
@@ -573,18 +641,26 @@ const questions = [
         "Yes, and they seem to worsen during high-stress periods"
       ],
       [
+        "C",
+        "I notice breakouts more when I am up late or my sleep is off"
+      ],
+      [
         "D",
         "I have noticed hair thinning and hormonal skin changes but they feel less intense now than they used to"
+      ],
+      [
+        "E",
+        "They come and go with no clear pattern"
+      ],
+      [
+        "F",
+        "No, I do not notice these patterns"
       ]
     ]
   },
   {
     "text": "How would you describe your libido?",
     "options": [
-      [
-        "F",
-        "Present and relatively consistent"
-      ],
       [
         "A",
         "Variable. It drops when I am stressed but comes back"
@@ -594,8 +670,20 @@ const questions = [
         "Low. It has been reduced for a while and I notice it"
       ],
       [
+        "C",
+        "It shows up more at night than in the morning"
+      ],
+      [
         "D",
         "Very low or absent. I do not notice drive much at all"
+      ],
+      [
+        "E",
+        "It comes and goes with no clear pattern"
+      ],
+      [
+        "F",
+        "Present and relatively consistent"
       ]
     ]
   },
@@ -603,30 +691,34 @@ const questions = [
     "text": "How do you feel in the 24 to 48 hours after a high-stress event or intense workout?",
     "options": [
       [
-        "F",
-        "I recover well. I might be tired but bounce back quickly"
+        "A",
+        "I feel wired and keyed up afterward and it is hard to come down"
       ],
       [
         "B",
         "I notice a dip but push through it"
       ],
       [
-        "E",
-        "It depends on the week. Sometimes I recover fine, sometimes I crash"
+        "C",
+        "My sleep and energy get thrown off for a day or two, and mornings are even harder"
       ],
       [
         "D",
         "I consistently feel worse for days after anything demanding. Recovery is slow and incomplete"
+      ],
+      [
+        "E",
+        "It depends on the week. Sometimes I recover fine, sometimes I crash"
+      ],
+      [
+        "F",
+        "I recover well. I might be tired but bounce back quickly"
       ]
     ]
   },
   {
     "text": "When you read about allostatic load, the idea that cumulative stress including systemic stress like racism, economic strain, or medical trauma has a measurable biological cost, did it resonate with your experience?",
     "options": [
-      [
-        "F",
-        "Somewhat, but my stress load has felt manageable overall"
-      ],
       [
         "A",
         "Yes. I am in a stressful period but it feels relatively recent or situational"
@@ -636,8 +728,20 @@ const questions = [
         "Yes. I have been carrying a significant load for years and my body reflects it"
       ],
       [
+        "C",
+        "Yes. I feel it most at night, when I finally slow down and it all catches up with me"
+      ],
+      [
         "D",
         "Deeply. The stress I have carried has been long-term, layered, and largely invisible to my care team"
+      ],
+      [
+        "E",
+        "Yes, in waves. Some seasons feel manageable and others feel heavy"
+      ],
+      [
+        "F",
+        "Somewhat, but my stress load has felt manageable overall"
       ]
     ]
   }
