@@ -305,6 +305,17 @@
     margin-top:6px;
   }
 
+  .q-info{
+    font-size:12.5px;
+    line-height:1.55;
+    color:#6b5a53;
+    background:#fbf2e6;
+    border-left:3px solid var(--gold);
+    border-radius:0 10px 10px 0;
+    padding:10px 14px;
+    margin:-8px 0 18px;
+  }
+
   .hidden{display:none !important;}
 
   @media (prefers-reduced-motion: reduce){
@@ -339,6 +350,7 @@
     <div class="step-count" id="stepCount">Question 1 of 13</div>
     <div class="question-text" id="qText"></div>
     <div class="hint" id="qHint">Select all that apply.</div>
+    <div class="q-info hidden" id="qInfo"></div>
     <div id="optionsWrap"></div>
     <div class="nav-row">
       <button class="btn-back" id="backBtn">Back</button>
@@ -524,7 +536,7 @@ const questions = [
       ],
       [
         "C",
-        "My cycle seems okay, but my symptoms feel worse when my sleep schedule is off"
+        "Maybe. I'm more certain that my cycle symptoms are worse with poor sleep or high stress."
       ],
       [
         "D",
@@ -540,7 +552,8 @@ const questions = [
       ]
     ],
     "note": "Skip this question if you are not currently cycling or tracking your cycle.",
-    "optional": true
+    "optional": true,
+    "info": "This pattern can reflect chronic stress affecting your body's stress-hormone (HPA) axis, which may interfere with progesterone and shorten the second half of your cycle."
   },
   {
     "text": "How are your salt cravings?",
@@ -555,7 +568,7 @@ const questions = [
       ],
       [
         "C",
-        "Moderate. I reach for salty foods often, especially in the afternoon"
+        "Moderate. I reach for salty foods often, especially in the afternoon or evening"
       ],
       [
         "D",
@@ -899,6 +912,9 @@ function renderQuestion(){
   });
 
   document.getElementById('qHint').textContent = q.note ? 'Select all that apply. ' + q.note : 'Select all that apply.';
+  const info = document.getElementById('qInfo');
+  info.textContent = q.info || '';
+  info.classList.toggle('hidden', !q.info);
   nextBtn.disabled = !canAdvance();
   nextBtn.textContent = current === questions.length - 1 ? 'See My Result' : 'Next';
   backBtn.disabled = current === 0;
