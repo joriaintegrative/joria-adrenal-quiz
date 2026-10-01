@@ -391,11 +391,6 @@
     <div class="result-sub" id="resultSub"></div>
     <div class="result-desc" id="resultDesc"></div>
 
-    <div class="block">
-      <h3>Questions to bring to your provider</h3>
-      <ul id="resultProvider"></ul>
-    </div>
-
     <div class="offer hidden" id="offerBlock">
       <h3>Want to go deeper into your pattern?</h3>
       <p>Each guide covers what your pattern may mean, what your body may be calling for, questions to bring to your provider, and a two-week check-in you can print.</p>
@@ -566,11 +561,6 @@ const results = {
     name: "The Kindling",
     sub: "Alarm Pattern",
     desc: "Your system is running hot right now. Wired mornings, a racing mind at night, a body that feels like it's bracing for something even when nothing is visibly wrong. This is early activation, which means nothing is depleted yet. It's actually the most responsive stage to work with, since small, targeted shifts now can change the trajectory before it wears the system down further.",
-    provider: [
-      "Can we look at a cortisol pattern test (salivary or DUTCH) rather than a single serum draw?",
-      "Are there signs of blood sugar instability contributing to this?",
-      "What would a baseline hormone panel (testosterone, LH, FSH) look like alongside this?"
-    ],
     integration: "Chronic activation of the HPA axis can cross-talk with the HPG axis, the pathway that drives testosterone and sperm production. Supporting your nervous system now, through sleep, blood sugar stability, and identifying what's keeping your system on alert, is directly relevant to reproductive health, not separate from it."
   },
   pressure: {
@@ -578,11 +568,6 @@ const results = {
     name: "The Pressure Cooker",
     sub: "Resistance Pattern",
     desc: "You're getting through the day, but it's costing you. Early energy fades into an afternoon crash, physical tension builds, and recovery from exertion takes longer than it used to. Your body has been compensating for a while now, and that effort is starting to show in ways that might not immediately register as stress-related.",
-    provider: [
-      "Could ongoing stress be contributing to symptoms I've been attributing to something else, like low energy or reduced drive?",
-      "Is my testosterone level being affected by chronic stress load, and is that worth testing?",
-      "What recovery markers should we be tracking beyond a single lab snapshot?"
-    ],
     integration: "Spermatogenesis takes about 74 days from start to finish, which means the stress your body is under today can shape sperm quality months from now. Addressing resistance patterns early gives your system real runway to recover before it matters for a fertility timeline."
   },
   inverter: {
@@ -590,11 +575,6 @@ const results = {
     name: "The Inverter",
     sub: "Rhythm-Disrupted Pattern",
     desc: "Your internal clock is running out of sync with the day. Mornings feel foggy or flat, and energy, focus, or drive show up more at night. This isn't a personality trait or a motivation problem, it's a cortisol rhythm that has essentially flipped from its typical pattern.",
-    provider: [
-      "Would a four-point cortisol rhythm test help confirm what's happening across the day?",
-      "Could shift work, screen exposure, or sleep timing be reinforcing this pattern?",
-      "Are there other hormones (like testosterone, which also follows a daily rhythm) worth checking at the same time?"
-    ],
     integration: "Testosterone follows its own daily rhythm, typically peaking in the morning. When cortisol rhythm flips, it can pull other hormone patterns off course too. Realigning your daily rhythm is a legitimate piece of a fertility-supportive plan, not just a sleep hygiene footnote."
   },
   ember: {
@@ -602,11 +582,6 @@ const results = {
     name: "The Ember",
     sub: "Exhaustion Pattern",
     desc: "You're running on empty, and rest isn't filling the tank back up. This is the deeper end of the burnout spectrum, where the system has been in survival mode long enough that recovery needs to be more deliberate than just a good night's sleep.",
-    provider: [
-      "Should we rule out other causes of persistent fatigue (thyroid, anemia, low testosterone) alongside adrenal patterns?",
-      "What would a realistic recovery timeline look like given how long this has been going on?",
-      "Are there supports (nutritional, medical, or otherwise) that can help rebuild capacity rather than just push through?"
-    ],
     integration: "Chronic depletion can affect testosterone production and sperm parameters over time. This pattern is a signal to prioritize recovery before pushing hard on other fertility interventions. Rebuilding capacity now protects the foundation everything else depends on."
   },
   flux: {
@@ -614,11 +589,6 @@ const results = {
     name: "The Flux",
     sub: "Mixed or Shifting Pattern",
     desc: "There's no single clear pattern here, just day-to-day variability. Some days feel fine, others feel rough, without an obvious rhythm connecting them. This often shows up during a transition, either the system shifting toward dysregulation or actively healing out of it.",
-    provider: [
-      "What's the best way to track this pattern over a few weeks so we can see which direction it's trending?",
-      "Could this variability be tied to something cyclical in my routine, like sleep, training load, or work stress?",
-      "If I'm on testosterone therapy or considering it, how might that interact with a shifting stress pattern?"
-    ],
     integration: "Because this pattern is still finding its shape, it's a good window to build consistent habits around sleep, stress, and recovery. Tracking now can help clarify whether you're heading toward one of the other patterns or back toward regulation."
   },
   flow: {
@@ -626,10 +596,6 @@ const results = {
     name: "The Flow",
     sub: "Regulated Pattern",
     desc: "Steady energy, decent sleep, and a stress response that doesn't linger. This is the baseline pattern, included deliberately so this quiz isn't only naming dysfunction. If you landed here, the focus is maintenance: protecting what's working as you move through fertility planning.",
-    provider: [
-      "Are there baseline labs worth having on record now, so we have something to compare against later if anything shifts?",
-      "What habits are most worth protecting as life circumstances change?"
-    ],
     integration: "A regulated stress response supports a stable hormonal environment for testosterone and sperm production. There's nothing to fix here, just awareness of what's working so it's easier to notice if that ever changes."
   }
 };
@@ -827,13 +793,6 @@ function showResult(){
   document.getElementById('resultSub').textContent = r.sub;
   document.getElementById('resultDesc').textContent = r.desc;
 
-  const providerList = document.getElementById('resultProvider');
-  providerList.innerHTML = '';
-  r.provider.forEach(q => {
-    const li = document.createElement('li');
-    li.textContent = q;
-    providerList.appendChild(li);
-  });
 
   screenQuiz.classList.add('hidden');
   screenResult.classList.remove('hidden');
