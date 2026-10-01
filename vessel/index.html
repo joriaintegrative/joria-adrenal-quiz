@@ -334,6 +334,7 @@
   .offer p{font-size:13px !important;line-height:1.6;color:#5a4f4a;margin:0 0 16px !important;}
   .offer-btns{display:flex;flex-direction:column;align-items:center;gap:10px;}
   .offer-main{display:inline-block;text-decoration:none;border-radius:999px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:13.5px;padding:13px 26px;}
+  .offer-soon{font-size:12.5px !important;color:var(--crimson) !important;margin:12px 0 0 !important;}
   .offer-bundle{display:inline-block;font-size:13.5px;font-weight:600;color:var(--crimson);text-decoration:underline;text-underline-offset:3px;}
 
   .hidden{display:none !important;}
@@ -403,13 +404,14 @@
     <div class="result-sub" id="resultSub"></div>
     <div class="result-desc" id="resultDesc"></div>
 
-    <div class="offer hidden" id="offerBlock">
+    <div class="offer" id="offerBlock">
       <h3>Want to go deeper into your pattern?</h3>
       <p>Each guide covers what your pattern may mean, what your body may be calling for, questions to bring to your provider, and a two-week check-in you can print.</p>
       <div class="offer-btns">
-        <a class="btn-next offer-main hidden" id="guideBtn" target="_top" rel="noopener">Get the guide, $9.99</a>
-        <a class="offer-bundle hidden" id="bundleBtn" target="_top" rel="noopener">Get all six guides, $25</a>
+        <a class="btn-next offer-main" id="guideBtn" target="_top" rel="noopener">Get the guide, $9.99</a>
+        <a class="offer-bundle" id="bundleBtn" target="_top" rel="noopener">Get all six guides, $25</a>
       </div>
+      <p class="offer-soon hidden" id="offerSoon">Guides will be available soon. Check back shortly.</p>
     </div>
 
     <button class="btn-next retake" id="retakeBtn">Take the Quiz Again</button>
@@ -960,12 +962,14 @@ const PRODUCT_LINKS = {
 function renderOffer(key){
   const guide = document.getElementById('guideBtn');
   const bundle = document.getElementById('bundleBtn');
-  const g = PRODUCT_LINKS[key], b = PRODUCT_LINKS.bundle;
-  guide.classList.toggle('hidden', !g);
-  bundle.classList.toggle('hidden', !b);
-  if(g){ guide.href = g; guide.textContent = 'Get the ' + PATTERN_NAMES[key].replace(/^The /,'') + ' guide, $9.99'; }
-  if(b){ bundle.href = b; }
-  document.getElementById('offerBlock').classList.toggle('hidden', !(g || b));
+  const soon = document.getElementById('offerSoon');
+  soon.classList.add('hidden');
+  guide.textContent = 'Get the ' + PATTERN_NAMES[key].replace(/^The /,'') + ' guide, $9.99';
+  [[guide, PRODUCT_LINKS[key]], [bundle, PRODUCT_LINKS.bundle]].forEach(([el, link]) => {
+    el.onclick = null;
+    if(link){ el.href = link; }
+    else { el.href = '#'; el.onclick = (e) => { e.preventDefault(); soon.classList.remove('hidden'); }; }
+  });
 }
 
 const EDITION = "Vessel";
