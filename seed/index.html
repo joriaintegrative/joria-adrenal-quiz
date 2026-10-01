@@ -318,6 +318,13 @@
   .consent{font-size:10.5px !important;color:#9a8b85 !important;line-height:1.5;text-align:center;margin-top:10px !important;}
   #screen-email h2{font-size:19px;line-height:1.35;max-width:440px;margin:0 auto 10px;}
 
+  .offer{background:#fbf2e6;border-radius:14px;padding:20px 20px 22px;margin:4px 0 18px;text-align:center;}
+  .offer h3{font-size:16px;font-weight:700;color:var(--crimson);margin:0 0 8px;}
+  .offer p{font-size:13px !important;line-height:1.6;color:#5a4f4a;margin:0 0 16px !important;}
+  .offer-btns{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .offer-main{display:inline-block;text-decoration:none;border-radius:999px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:13.5px;padding:13px 26px;}
+  .offer-bundle{display:inline-block;font-size:13.5px;font-weight:600;color:var(--crimson);text-decoration:underline;text-underline-offset:3px;}
+
   .hidden{display:none !important;}
 
   @media (prefers-reduced-motion: reduce){
@@ -364,7 +371,7 @@
   <div class="center-stage hidden" id="screen-email">
     <div class="result-tag">Your result is ready</div>
     <h2>Enter your first name and email to see your stress pattern.</h2>
-    <p>We will also send you a copy of your result and a free one-page overview of all six patterns.</p>
+    <p>We will send you occasional updates and resources from Joria Integrative Healing.</p>
     <form id="emailForm" class="email-form" novalidate>
       <label for="mcFname">First name</label>
       <input type="text" id="mcFname" name="FNAME" autocomplete="given-name" required>
@@ -387,6 +394,15 @@
     <div class="block">
       <h3>Questions to bring to your provider</h3>
       <ul id="resultProvider"></ul>
+    </div>
+
+    <div class="offer hidden" id="offerBlock">
+      <h3>Want to go deeper into your pattern?</h3>
+      <p>Each guide covers what your pattern may mean, what your body may be calling for, questions to bring to your provider, and a two-week check-in you can print.</p>
+      <div class="offer-btns">
+        <a class="btn-next offer-main hidden" id="guideBtn" target="_top" rel="noopener">Get the guide, $9.99</a>
+        <a class="offer-bundle hidden" id="bundleBtn" target="_top" rel="noopener">Get all six guides, $25</a>
+      </div>
     </div>
 
     <button class="btn-next retake" id="retakeBtn">Take the Quiz Again</button>
@@ -712,6 +728,29 @@ const MAILCHIMP = {
   patternField: "PATTERN", // merge tag for the Stress Pattern audience field
   editionField: "EDITION"  // merge tag for the Quiz Edition audience field
 };
+// ===== Product links for the result screen =====
+// Paste each Squarespace product page URL. A button only shows once its link is filled in.
+const PRODUCT_LINKS = {
+  kindling: "",
+  pressure: "",
+  inverter: "",
+  ember: "",
+  flux: "",
+  flow: "",
+  bundle: ""
+};
+
+function renderOffer(key){
+  const guide = document.getElementById('guideBtn');
+  const bundle = document.getElementById('bundleBtn');
+  const g = PRODUCT_LINKS[key], b = PRODUCT_LINKS.bundle;
+  guide.classList.toggle('hidden', !g);
+  bundle.classList.toggle('hidden', !b);
+  if(g){ guide.href = g; guide.textContent = 'Get the ' + PATTERN_NAMES[key].replace(/^The /,'') + ' guide, $9.99'; }
+  if(b){ bundle.href = b; }
+  document.getElementById('offerBlock').classList.toggle('hidden', !(g || b));
+}
+
 const EDITION = "Seed";
 const PATTERN_NAMES = {kindling:"The Kindling",pressure:"The Pressure Cooker",inverter:"The Inverter",ember:"The Ember",flux:"The Flux",flow:"The Flow"};
 
@@ -782,6 +821,7 @@ document.getElementById('emailForm').addEventListener('submit', (e) => {
 function showResult(){
   const topKey = computeTopKey();
   const r = results[topKey];
+  renderOffer(topKey);
   document.getElementById('resultTag').textContent = 'Your stress pattern';
   document.getElementById('resultName').textContent = r.name;
   document.getElementById('resultSub').textContent = r.sub;
