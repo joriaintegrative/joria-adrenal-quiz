@@ -307,6 +307,17 @@
 
   .switch{display:inline-block;margin-top:16px;font-size:12px;font-weight:600;color:var(--mauve);text-decoration:underline;text-underline-offset:3px;}
 
+  .email-form{text-align:left;max-width:400px;margin:22px auto 0;display:flex;flex-direction:column;gap:6px;}
+  .email-form label{font-size:12px;font-weight:600;color:var(--crimson);letter-spacing:.3px;margin-top:6px;}
+  .email-form input[type=text],.email-form input[type=email]{font-family:'Montserrat',sans-serif;font-size:15px;padding:12px 14px;border:1.5px solid #e8ddd8;border-radius:12px;color:var(--ink);background:#fff;}
+  .email-form input:focus{outline:none;border-color:var(--crimson);box-shadow:0 0 0 3px rgba(110,31,36,0.12);}
+  .email-form .btn-next{margin-top:14px;width:100%;}
+  .email-form .btn-next:disabled{opacity:.6;cursor:wait;}
+  .hp{position:absolute;left:-5000px;}
+  .form-error{font-size:12.5px;color:var(--crimson);background:#fbf2f1;border-radius:10px;padding:9px 12px;margin:6px 0 0;}
+  .consent{font-size:10.5px !important;color:#9a8b85 !important;line-height:1.5;text-align:center;margin-top:10px !important;}
+  #screen-email h2{font-size:19px;line-height:1.35;max-width:440px;margin:0 auto 10px;}
+
   .hidden{display:none !important;}
 
   @media (prefers-reduced-motion: reduce){
@@ -347,6 +358,23 @@
       <button class="btn-back" id="backBtn">Back</button>
       <button class="btn-next" id="nextBtn" disabled>Next</button>
     </div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="center-stage hidden" id="screen-email">
+    <div class="result-tag">Your result is ready</div>
+    <h2>Enter your first name and email to see your stress pattern.</h2>
+    <p>We will also send you a copy of your result and a free one-page overview of all six patterns.</p>
+    <form id="emailForm" class="email-form" novalidate>
+      <label for="mcFname">First name</label>
+      <input type="text" id="mcFname" name="FNAME" autocomplete="given-name" required>
+      <label for="mcEmail">Email</label>
+      <input type="email" id="mcEmail" name="EMAIL" autocomplete="email" required>
+      <div class="hp" aria-hidden="true"><input type="text" id="mcHp" tabindex="-1" autocomplete="off"></div>
+      <p class="form-error hidden" id="formError" role="alert"></p>
+      <button type="submit" class="btn-next" id="emailBtn">See My Stress Pattern</button>
+      <p class="consent">By continuing, you agree to receive emails from Joria Integrative Healing. You can unsubscribe at any time.</p>
+    </form>
   </div>
 
   <!-- RESULT -->
@@ -664,7 +692,7 @@ nextBtn.addEventListener('click', () => {
     current++;
     renderQuestion();
   } else {
-    showResult();
+    showEmailGate();
   }
 });
 
@@ -675,33 +703,84 @@ backBtn.addEventListener('click', () => {
   }
 });
 
-function showResult(){
-  progressFill.style.width = '100%';
+
+// ===== Mailchimp email capture =====
+// Paste values from Mailchimp: Audience > Signup forms > Embedded forms.
+const MAILCHIMP = {
+  action: "",          // the form action URL, e.g. https://joriaintegrative.us21.list-manage.com/subscribe/post?u=XXXX&amp;id=YYYY
+  honeypot: "",        // the hidden field name that starts with b_ , e.g. b_XXXX_YYYY
+  patternField: "PATTERN", // merge tag for the Stress Pattern audience field
+  editionField: "EDITION"  // merge tag for the Quiz Edition audience field
+};
+const EDITION = "Seed";
+const PATTERN_NAMES = {kindling:"The Kindling",pressure:"The Pressure Cooker",inverter:"The Inverter",ember:"The Ember",flux:"The Flux",flow:"The Flow"};
+
+function computeTopKey(){
   const tally = {kindling:0, pressure:0, inverter:0, ember:0, flux:0, flow:0};
-  answers.forEach(set => {
-    set.forEach(letter => {
-      tally[letterToPattern[letter]]++;
-    });
-  });
-
-  let topKey = 'flow';
-  let topScore = -1;
-  let tiedKeys = [];
+  answers.forEach(set => set.forEach(letter => { tally[letterToPattern[letter]]++; }));
+  let topKey = 'flow', topScore = -1, tiedKeys = [];
   Object.keys(tally).forEach(key => {
-    if(tally[key] > topScore){
-      topScore = tally[key];
-      topKey = key;
-      tiedKeys = [key];
-    } else if(tally[key] === topScore){
-      tiedKeys.push(key);
-    }
+    if(tally[key] > topScore){ topScore = tally[key]; topKey = key; tiedKeys = [key]; }
+    else if(tally[key] === topScore){ tiedKeys.push(key); }
   });
-  if(tiedKeys.length > 1 && tiedKeys.includes('flux')){
-    topKey = 'flux';
-  } else if(tiedKeys.length > 1){
-    topKey = tiedKeys[0];
-  }
+  if(tiedKeys.length > 1 && tiedKeys.includes('flux')) topKey = 'flux';
+  else if(tiedKeys.length > 1) topKey = tiedKeys[0];
+  return topKey;
+}
 
+function showEmailGate(){
+  progressFill.style.width = '100%';
+  screenQuiz.classList.add('hidden');
+  document.getElementById('screen-email').classList.remove('hidden');
+  document.getElementById('mcFname').focus();
+}
+
+function mailchimpSubscribe(fields, done){
+  if(!MAILCHIMP.action){ done({result:'skipped'}); return; }
+  const cb = 'mc_cb_' + Date.now();
+  const params = Object.keys(fields).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(fields[k])).join('&');
+  const url = MAILCHIMP.action.replace(/&amp;/g,'&').replace('/post?','/post-json?') + '&' + params + '&c=' + cb;
+  const s = document.createElement('script');
+  let finished = false;
+  const finish = (r) => { if(finished) return; finished = true; delete window[cb]; s.remove(); done(r); };
+  window[cb] = (r) => finish(r);
+  s.onerror = () => finish({result:'network'});
+  setTimeout(() => finish({result:'timeout'}), 8000);
+  s.src = url;
+  document.body.appendChild(s);
+}
+
+document.getElementById('emailForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fname = document.getElementById('mcFname').value.trim();
+  const email = document.getElementById('mcEmail').value.trim();
+  const err = document.getElementById('formError');
+  const btn = document.getElementById('emailBtn');
+  err.classList.add('hidden');
+  if(!fname){ err.textContent = 'Please enter your first name.'; err.classList.remove('hidden'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent = 'Please enter a valid email address, like name@example.com.'; err.classList.remove('hidden'); return; }
+  if(document.getElementById('mcHp').value){ return; }
+  const key = computeTopKey();
+  const fields = { FNAME: fname, EMAIL: email };
+  fields[MAILCHIMP.patternField] = PATTERN_NAMES[key];
+  fields[MAILCHIMP.editionField] = EDITION;
+  if(MAILCHIMP.honeypot) fields[MAILCHIMP.honeypot] = '';
+  btn.disabled = true; btn.textContent = 'One moment...';
+  mailchimpSubscribe(fields, (r) => {
+    btn.disabled = false; btn.textContent = 'See My Stress Pattern';
+    const msg = (r && r.msg) ? String(r.msg) : '';
+    if(r && r.result === 'error' && /email/i.test(msg) && !/already subscribed/i.test(msg) && !/too many/i.test(msg)){
+      err.textContent = 'That email did not go through. Please check it and try again.';
+      err.classList.remove('hidden');
+      return;
+    }
+    document.getElementById('screen-email').classList.add('hidden');
+    showResult();
+  });
+});
+
+function showResult(){
+  const topKey = computeTopKey();
   const r = results[topKey];
   document.getElementById('resultTag').textContent = 'Your stress pattern';
   document.getElementById('resultName').textContent = r.name;
@@ -724,6 +803,8 @@ document.getElementById('retakeBtn').addEventListener('click', () => {
   current = 0;
   answers.forEach(s => s.clear());
   screenResult.classList.add('hidden');
+  document.getElementById('screen-email').classList.add('hidden');
+  document.getElementById('emailForm').reset();
   screenIntro.classList.remove('hidden');
   progressFill.style.width = '0%';
 });
