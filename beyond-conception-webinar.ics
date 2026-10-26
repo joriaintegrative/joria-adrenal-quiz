@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Joria Integrative Healing//Beyond Conception//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:beyond-conception-20261027@joriaintegrative.com
+DTSTAMP:20261026T190000Z
+DTSTART:20261028T010000Z
+DTEND:20261028T020000Z
+SUMMARY:Beyond Conception Webinar: A Holistic Guide to the 90-Day Preconception Window
+LOCATION:https://meet.google.com/pjo-yuuo-mva
+DESCRIPTION:Join live on Google Meet: https://meet.google.com/pjo-yuuo-mva\n\nDial in (US): +1 904-600-5178\, PIN: 838 258 113#\n\nClick "Ask to join." The room opens at 5:55 PM PT.\n\nJoria Integrative Healing
+URL:https://meet.google.com/pjo-yuuo-mva
+BEGIN:VALARM
+TRIGGER:-PT1H
+ACTION:DISPLAY
+DESCRIPTION:Beyond Conception Webinar starts in 1 hour
+END:VALARM
+END:VEVENT
+END:VCALENDAR
