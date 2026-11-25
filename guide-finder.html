@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find your guide | Joria Integrative Healing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Color by role */
+  :root{
+    --bg:#f2f2f2;            /* page, matches the site's body sections */
+    --surface:#ffffff;       /* option chips */
+    --text:#2f2223;          /* body text */
+    --text-soft:#5b4546;     /* helper text, tinted from the brand red */
+    --brand:#6a2326;         /* headings, primary action, selected state */
+    --brand-deep:#521a1d;    /* hover for primary action */
+    --support:#696a48;       /* olive: borders, links, bundle band */
+    --on-brand:#f2f2f2;
+    --on-brand-soft:#e6d9d9; /* secondary text on the red header */
+    --accent:#c9a24b;        /* gold: focus ring on red, dot marker */
+    --mauve:#b08b97;         /* dot marker */
+    --error:#7a1c1f;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{background:var(--bg);scrollbar-color:var(--support) var(--bg)}
+  body{margin:0;font-family:'Montserrat',sans-serif;font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--accent);color:var(--text)}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
+  .hdr :focus-visible{outline-color:var(--accent)}
+  .inner{max-width:760px;margin:0 auto;padding:0 clamp(22px,6vw,56px)}
+  a{color:var(--brand);text-decoration-color:var(--support);text-underline-offset:.22em;text-decoration-thickness:2px}
+  svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+  /* ---------- Header ---------- */
+  .hdr{background:var(--brand);color:var(--on-brand);padding:clamp(60px,11vh,92px) 0 14px}
+  .hdr h1{margin:0;font-size:clamp(32px,7vw,48px);font-weight:800;letter-spacing:-.025em;line-height:1.1}
+  .lede{margin:14px 0 0;max-width:46ch;font-size:18px;line-height:1.55;color:var(--on-brand-soft)}
+  .linkbtn{
+    font:inherit;font-weight:600;color:var(--on-brand);background:none;border:0;padding:6px 0;margin-top:14px;
+    cursor:pointer;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.22em;
+  }
+  .linkbtn:hover{text-decoration-color:var(--on-brand)}
+  .wave{display:block;width:100%;height:clamp(26px,5vw,48px);background:var(--bg)}
+  .wave path{fill:var(--brand)}
+
+  /* ---------- Questions ---------- */
+  main{padding:clamp(8px,2vw,16px) 0 clamp(56px,9vh,88px)}
+  .q{margin-top:clamp(40px,7vh,56px)}
+  .q:first-child{margin-top:clamp(16px,3vh,24px)}
+  .q h2{margin:0 0 6px;font-size:clamp(21px,3.4vw,26px);font-weight:700;line-height:1.3;color:var(--brand)}
+  .hint{margin:0 0 18px;color:var(--text-soft)}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{position:relative;display:inline-block;max-width:100%}
+  .chip input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+  .face{
+    display:inline-flex;align-items:center;gap:10px;min-height:48px;max-width:100%;
+    padding:10px 20px 10px 14px;border:2px solid var(--support);border-radius:999px;
+    background:var(--surface);color:var(--text);font-weight:600;line-height:1.3;
+    transition:background-color .12s ease-out,border-color .12s ease-out,color .12s ease-out;
+  }
+  .mark{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:2px solid var(--support);background:var(--surface)}
+  .mark svg{width:14px;height:14px;fill:none;stroke:var(--brand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+  .chip:hover .face{border-color:var(--brand)}
+  .chip input:checked + .face{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+  .chip input:checked + .face .mark{background:var(--on-brand);border-color:var(--on-brand)}
+  .chip input:checked + .face .mark svg{opacity:1}
+  .chip input:focus-visible + .face{outline:3px solid var(--brand);outline-offset:3px}
+
+  /* the one motion moment: a follow-up question appearing after an answer */
+  .reveal{animation:rise .38s cubic-bezier(.22,1,.36,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  /* ---------- Buttons and messages ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:14px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;text-decoration:none;cursor:pointer;border:0;border-radius:999px;
+    min-height:52px;padding:14px 32px;background:var(--brand);color:var(--on-brand);
+    transition:background-color .12s ease-out;
+  }
+  .btn:hover{background:var(--brand-deep)}
+  .btn[aria-disabled="true"]{background:#dccccc;color:#7a5f60;cursor:not-allowed}
+  .btn.small{min-height:48px;padding:12px 24px;white-space:nowrap}
+  .btn.light{background:var(--on-brand);color:var(--brand)}
+  .btn.light:hover{background:#fff}
+  .actions{margin-top:clamp(40px,7vh,56px)}
+  .error{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;font-weight:600;color:var(--error)}
+  .error div + div{margin-top:2px}
+  .error svg{margin-top:2px}
+
+  /* ---------- Results ---------- */
+  .group + .group{margin-top:clamp(48px,8vh,64px)}
+  .group h2{display:flex;align-items:center;gap:12px;margin:0;font-size:clamp(21px,3.4vw,26px);font-weight:700;color:var(--brand)}
+  .dot{flex:none;width:14px;height:14px;border-radius:50%}
+  .dot.stress{background:var(--mauve)} .dot.gut{background:var(--accent)} .dot.home{background:var(--support)} .dot.start{background:var(--brand)}
+  .row{
+    display:grid;grid-template-columns:1fr auto;gap:14px 32px;align-items:center;
+    padding:24px 0;border-bottom:1px solid #d9cfcf;
+  }
+  .group h2 + .row{margin-top:14px;border-top:1px solid #d9cfcf}
+  .row h3{margin:0 0 4px;font-size:clamp(19px,3vw,23px);font-weight:800;letter-spacing:-.012em;line-height:1.25;color:var(--brand)}
+  .row p{margin:0;max-width:65ch}
+  .act{display:flex;align-items:center;gap:18px}
+  .price{font-weight:700;font-variant-numeric:tabular-nums}
+  .aside{margin:20px 0 0;max-width:65ch}
+  .bundle{
+    margin-top:24px;padding:24px 28px;border-radius:16px;background:var(--support);color:var(--on-brand);
+    display:flex;justify-content:space-between;align-items:center;gap:16px 28px;flex-wrap:wrap;
+  }
+  .bundle p{margin:0;flex:1 1 240px;font-size:18px;font-weight:600;line-height:1.45}
+  .bundle .btn{flex:none}
+  .bundle b{font-weight:800}
+  .empty{padding:8px 0}
+  .empty p{max-width:60ch}
+  .foot{margin-top:clamp(44px,8vh,64px)}
+  .foot a{font-weight:700}
+
+  @media (max-width:560px){
+    .row{grid-template-columns:1fr}
+    .act{justify-content:space-between}
+    .bundle .btn{width:100%}
+    .actions .btn{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{animation:none}
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="inner">
+    <h1 id="title" tabindex="-1">Find your guide</h1>
+    <p class="lede" id="lede">Answer a few questions and we'll match you with the guides that fit.</p>
+    <button type="button" class="linkbtn" id="edit" hidden>Change my answers</button>
+  </div>
+</header>
+<svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V14C1180 52 760 6 420 30C250 42 110 36 0 22Z"/></svg>
+
+<main>
+  <div class="inner">
+    <form id="form" novalidate>
+      <div class="q" id="q-topics" role="group" aria-labelledby="h-topics">
+        <h2 id="h-topics">What would you like support with?</h2>
+        <p class="hint">Choose all that apply.</p>
+        <div class="chips" data-chips="topics"></div>
+      </div>
+
+      <div class="q" id="q-patterns" role="group" aria-labelledby="h-patterns" hidden>
+        <h2 id="h-patterns">Which stress pattern fits you?</h2>
+        <p class="hint">Choose all that apply. If you haven't taken the quiz yet, choose the last option.</p>
+        <div class="chips" data-chips="patterns"></div>
+      </div>
+
+      <div class="q" id="q-home" role="group" aria-labelledby="h-home" hidden>
+        <h2 id="h-home">What do you want to look at in your home?</h2>
+        <p class="hint">Choose all that apply.</p>
+        <div class="chips" data-chips="home"></div>
+      </div>
+
+      <div class="actions">
+        <div class="error" id="error" role="alert" hidden></div>
+        <button type="button" class="btn" id="show" aria-disabled="true">Show my guides</button>
+      </div>
+    </form>
+
+    <div id="res" hidden></div>
+  </div>
+</main>
+
+<script>
+/* =====================================================================
+   EDIT THIS SECTION
+   Give each guide its real product-page link in "url" and its price in
+   "price" (leave price as "" to hide it). Links open in the full window.
+   ===================================================================== */
+var CONFIG = {
+  resourcesUrl: "https://www.joriaintegrative.com/resources",  // "See all guides"
+  quizUrl:      "https://www.joriaintegrative.com/stress-pattern",                                         // "What's Your Stress Pattern?" quiz
+  bundle: { price:"$25", url:"https://www.joriaintegrative.com/shop/p/complete-stress-pattern-guide" }                              // all stress pattern guides together
+};
+
+/* group: stress | gut | home
+   Stress guides match on "pattern". Home guides match on "tags". */
+var GUIDES = [
+  { title:"The Kindling Guide",        group:"stress", pattern:"kindling",       price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-kindling",
+    blurb:"Your guide for the Kindling stress pattern." },
+  { title:"The Pressure Cooker Guide", group:"stress", pattern:"pressurecooker", price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-pressure-cooker-guide",
+    blurb:"Your guide for the Pressure Cooker stress pattern." },
+  { title:"The Inverter Guide",        group:"stress", pattern:"inverter",       price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-inverter-guide",
+    blurb:"Your guide for the Inverter stress pattern." },
+  { title:"The Ember Guide",           group:"stress", pattern:"ember",          price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-ember-guide",
+    blurb:"Your guide for the Ember stress pattern." },
+  { title:"The Flux Guide",            group:"stress", pattern:"flux",           price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-flux",
+    blurb:"Your guide for the Flux stress pattern." },
+  { title:"The Flow Guide",            group:"stress", pattern:"flow",           price:"$9.99", url:"https://www.joriaintegrative.com/shop/p/the-flow-guide",
+    blurb:"Your guide for the Flow stress pattern." },
+
+  { title:"Fiber Guide",               group:"gut", price:"", url:"https://www.joriaintegrative.com/shop/p/fiber-guide",
+    blurb:"Support your gut and digestion with fiber." },
+
+  { title:"Clean Home Resource Guide", group:"home", tags:["overview","cleaning"], price:"", url:"https://www.joriaintegrative.com/shop/p/clean-home-resource-guide",
+    blurb:"A whole-home resource for choosing cleaner products and habits." },
+  { title:"Heavy Metals Home Action Planner", group:"home", tags:["metals","overview"], price:"", url:"https://www.joriaintegrative.com/shop/p/heavy-metals-home-action-planner",
+    blurb:"A step-by-step planner for lowering heavy metal exposure at home." },
+  { title:"Environmental Check-In: Cleaning Products", group:"home", tags:["cleaning"], price:"", url:"https://www.joriaintegrative.com/shop/p/environmental-check-in-cleaning-products",
+    blurb:"Check in on the cleaning products in your home." },
+  { title:"Environmental Check-In: Scents, Fragrance + Indoor Air Quality", group:"home", tags:["scents"], price:"", url:"https://www.joriaintegrative.com/shop/p/environmental-check-in-scents-fragrance-indoor-air-quality",
+    blurb:"Check in on fragrance and the air you breathe at home." },
+  { title:"Environmental Check-In: Body + Hair Care Products", group:"home", tags:["bodycare"], price:"", url:"https://www.joriaintegrative.com/shop/p/environmental-check-in-body-hair-care-products",
+    blurb:"Check in on what goes on your skin and hair." },
+  { title:"Environmental Check-In: Plastics", group:"home", tags:["plastics"], price:"", url:"https://www.joriaintegrative.com/shop/p/environmental-check-in-plastics",
+    blurb:"Check in on plastics in your kitchen and daily life." },
+  { title:"Environmental Check-In: PFAS", group:"home", tags:["pfas"], price:"", url:"https://www.joriaintegrative.com/shop/p/oidanxc9d8b7img3ujj4fn1szhylig",
+    blurb:"Check in on PFAS in cookware, water, packaging and more." }
+];
+
+var CHOICES = {
+  topics: [
+    { id:"stress", t:"Stress and energy" },
+    { id:"gut",    t:"Gut and digestion" },
+    { id:"home",   t:"My home and everyday products" },
+    { id:"unsure", t:"I'm not sure where to start" }
+  ],
+  patterns: [
+    { id:"kindling",       t:"The Kindling" },
+    { id:"pressurecooker", t:"The Pressure Cooker" },
+    { id:"inverter",       t:"The Inverter" },
+    { id:"ember",          t:"The Ember" },
+    { id:"flux",           t:"The Flux" },
+    { id:"flow",           t:"The Flow" },
+    { id:"unknown",        t:"I don't know my pattern yet" }
+  ],
+  home: [
+    { id:"cleaning", t:"Cleaning products" },
+    { id:"scents",   t:"Scents and indoor air" },
+    { id:"bodycare", t:"Body and hair care" },
+    { id:"plastics", t:"Plastics" },
+    { id:"pfas",     t:"PFAS" },
+    { id:"metals",   t:"Heavy metals" },
+    { id:"overview", t:"A whole-home overview" }
+  ]
+};
+var STARTERS = ["Clean Home Resource Guide", "Fiber Guide"];   // for "I'm not sure where to start"
+
+/* =====================================================================
+   LOGIC
+   ===================================================================== */
+var state = { topics:{}, patterns:{}, home:{} };
+var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(id){ return document.getElementById(id); }
+function keys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+var ICON_ALERT = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+
+/* build the option chips (real checkboxes) */
+Array.prototype.forEach.call(document.querySelectorAll("[data-chips]"), function(host){
+  var g = host.getAttribute("data-chips");
+  host.innerHTML = CHOICES[g].map(function(o){
+    return '<label class="chip"><input type="checkbox" data-g="'+g+'" data-id="'+o.id+'">'
+      + '<span class="face"><span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span>'+esc(o.t)+'</span></span></label>';
+  }).join("");
+});
+
+function showQ(el, on){
+  if(on && el.hidden){
+    el.hidden = false;
+    el.classList.remove("reveal"); void el.offsetWidth; el.classList.add("reveal");
+    setTimeout(function(){ el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block:"nearest" }); }, 60);
+  } else if(!on){ el.hidden = true; }
+}
+function missing(){
+  var m = [];
+  if(!keys(state.topics).length) m.push({ id:"topics", msg:"Choose at least one topic." });
+  if(state.topics.stress && !keys(state.patterns).length) m.push({ id:"patterns", msg:"Choose your stress pattern, or choose “I don't know my pattern yet.”" });
+  if(state.topics.home && !keys(state.home).length) m.push({ id:"home", msg:"Choose at least one area of your home." });
+  return m;
+}
+function sync(){
+  if(!state.topics.stress) state.patterns = {};
+  if(!state.topics.home)   state.home = {};
+  Array.prototype.forEach.call(document.querySelectorAll("#form input[type=checkbox]"), function(b){
+    b.checked = !!state[b.dataset.g][b.dataset.id];
+  });
+  showQ($("q-patterns"), !!state.topics.stress);
+  showQ($("q-home"),     !!state.topics.home);
+  $("show").setAttribute("aria-disabled", String(missing().length>0));
+  $("error").hidden = true;
+}
+function change(g, id, on){
+  var bag = state[g];
+  if(g==="topics" && id==="unsure"){ state.topics = on ? { unsure:true } : {}; }
+  else if(g==="patterns" && id==="unknown"){ state.patterns = on ? { unknown:true } : {}; }
+  else { if(g==="topics") bag.unsure = false; if(g==="patterns") bag.unknown = false; bag[id] = on; }
+  sync();
+}
+
+/* results */
+function byTitle(name){ return GUIDES.filter(function(g){ return g.title===name; })[0]; }
+function groupsFor(){
+  var out = [];
+  if(state.topics.stress){
+    var all = state.patterns.unknown;
+    out.push({ cls:"stress", head:"For your stress pattern",
+      guides: GUIDES.filter(function(g){ return g.group==="stress" && (all || state.patterns[g.pattern]); }),
+      quiz: !!all, bundle: true });
+  }
+  if(state.topics.gut){
+    out.push({ cls:"gut", head:"For your gut", guides: GUIDES.filter(function(g){ return g.group==="gut"; }) });
+  }
+  if(state.topics.home){
+    var scored = [];
+    GUIDES.forEach(function(g){
+      if(g.group!=="home") return;
+      var hits = (g.tags||[]).filter(function(t){ return state.home[t]; }).length;
+      if(hits) scored.push({ g:g, s:hits });
+    });
+    scored.sort(function(a,b){ return b.s - a.s; });
+    out.push({ cls:"home", head:"For your home", guides: scored.map(function(x){ return x.g; }) });
+  }
+  if(state.topics.unsure){
+    out.push({ cls:"start", head:"Good places to start", guides: STARTERS.map(byTitle).filter(Boolean), quiz:true });
+  }
+  return out.filter(function(grp){ return grp.guides.length; });
+}
+function rowHtml(g){
+  return '<div class="row"><div><h3>'+esc(g.title)+'</h3><p>'+esc(g.blurb)+'</p></div>'
+    + '<div class="act">'+(g.price?'<span class="price">'+esc(g.price)+'</span>':'')
+    + '<a class="btn small" target="_top" href="'+esc(g.url)+'" aria-label="View '+esc(g.title)+'">View guide</a></div></div>';
+}
+function showResults(){
+  var groups = groupsFor(), h;
+  if(!groups.length){
+    h = '<div class="empty"><p>No guides match those answers yet. Change your answers, or browse every guide.</p></div>';
+  } else {
+    h = groups.map(function(grp){
+      var s = '<section class="group"><h2><span class="dot '+grp.cls+'" aria-hidden="true"></span>'+esc(grp.head)+'</h2>'
+        + grp.guides.map(rowHtml).join('');
+      if(grp.quiz) s += '<p class="aside">Not sure which pattern is yours? Take the <a target="_top" href="'+esc(CONFIG.quizUrl)+'">What’s Your Stress Pattern? quiz</a>.</p>';
+      if(grp.bundle && grp.guides.length>1) s += '<div class="bundle"><p><b>All the stress pattern guides</b> together for '+esc(CONFIG.bundle.price)+'</p><a class="btn small light" target="_top" href="'+esc(CONFIG.bundle.url)+'">See the bundle</a></div>';
+      return s + '</section>';
+    }).join('');
+  }
+  h += '<div class="foot"><a target="_top" href="'+esc(CONFIG.resourcesUrl)+'">See all guides</a></div>';
+  $("res").innerHTML = h;
+  $("form").hidden = true; $("res").hidden = false;
+  $("title").textContent = "Your guides"; $("lede").hidden = true; $("edit").hidden = false;
+  scrollTo(0,0); $("title").focus({ preventScroll:true });
+}
+function showForm(){
+  $("res").hidden = true; $("form").hidden = false;
+  $("title").textContent = "Find your guide"; $("lede").hidden = false; $("edit").hidden = true;
+  scrollTo(0,0);
+  var f = document.querySelector("#form input:checked") || document.querySelector("#form input"); if(f) f.focus({ preventScroll:true });
+}
+function tryShow(){
+  var m = missing();
+  if(!m.length){ showResults(); return; }
+  var box = $("error");
+  box.innerHTML = ICON_ALERT + '<div>' + m.map(function(x){ return '<div>'+esc(x.msg)+'</div>'; }).join("") + '</div>';
+  box.hidden = false;
+  var first = document.querySelector('#q-'+m[0].id+' input'); if(first) first.focus();
+}
+
+document.addEventListener("change", function(e){
+  var b = e.target; if(b.matches && b.matches("#form input[type=checkbox]")) change(b.dataset.g, b.dataset.id, b.checked);
+});
+document.addEventListener("click", function(e){
+  if(e.target.id==="show") tryShow();
+  if(e.target.id==="edit") showForm();
+});
+sync();
+</script>
+</body>
+</html>
