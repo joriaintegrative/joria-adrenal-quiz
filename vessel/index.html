@@ -7,7 +7,7 @@
 <title>What's Your Stress Pattern? (Vessel Edition) | Joria Integrative Healing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --crimson:#6E1F24;
@@ -76,7 +76,7 @@
     width:auto;
   }
   .app-header h1{
-    font-weight:700;
+    font-weight:500;
     font-size:22px;
     line-height:1.25;
     margin:0;
@@ -106,8 +106,8 @@
     padding:32px var(--pad) 28px;
   }
   .question-text{
-    font-size:22px;
-    font-weight:600;
+    font-size:24px;
+    font-weight:500;
     line-height:1.35;
     margin:0 0 8px;
     color:var(--crimson);
@@ -236,7 +236,7 @@
     padding:32px var(--pad) 28px;
   }
   .center-stage h2{
-    font-weight:700;
+    font-weight:500;
     color:var(--crimson);
     font-size:24px;
     line-height:1.3;
@@ -268,25 +268,67 @@
     text-align:center;
   }
 
+  /* Color fields (brand board: full fields of crimson, mauve, olive, gold) */
+  .field{
+    --field-bg:var(--olive);
+    --ring:var(--gold);
+    position:relative;
+    background:var(--field-bg);
+    color:#fff;
+    margin:-32px calc(var(--pad) * -1) 28px;
+    padding:36px var(--pad) 34px;
+  }
+  .field-mauve{--field-bg:#946262;--ring:#A06A2A;}
+  .field-olive{--field-bg:var(--olive);--ring:#A06A2A;}
+  .center-stage .field h2{color:#fff;font-weight:300;font-size:clamp(28px,7vw,36px);line-height:1.2;margin:0 0 14px;}
+  .center-stage .field p{color:#fff;margin:0;max-width:52ch;}
+  .field-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;}
+  .field-head h2{margin:0 !important;}
+  .mark{display:block;flex:0 0 auto;width:104px;height:104px;}
+  .mark-sm{width:64px;height:64px;}
+
+  /* Result field takes its colors from the pattern */
+  #screen-result{--field-bg:var(--olive);--ring:var(--gold);}
+  #screen-result[data-pattern=kindling]{--field-bg:#A06A2A;--ring:#6E1F24;}
+  #screen-result[data-pattern=pressure]{--field-bg:#946262;--ring:#6E1F24;}
+  #screen-result[data-pattern=inverter]{--field-bg:#5A5A2F;--ring:#9C6A6A;}
+  #screen-result[data-pattern=ember]{--field-bg:#A06A2A;--ring:#5A5A2F;}
+  #screen-result[data-pattern=flux]{--field-bg:#946262;--ring:#5A5A2F;}
+  #screen-result[data-pattern=flow]{--field-bg:#5A5A2F;--ring:#A06A2A;}
+  #screen-result .field{--field-bg:inherit;--ring:inherit;background:var(--field-bg);}
+  .field-result{display:flex;flex-direction:column;gap:22px;margin-bottom:28px;}
+  @media (min-width:560px){
+    .field-result{flex-direction:row-reverse;align-items:center;justify-content:space-between;}
+    .field-result .mark{width:132px;height:132px;}
+  }
+
+  .app:has(#screen-intro:not(.hidden)) .progress-track{display:none;}
+
+  /* Result screen: slim header, no progress bar */
+  .app:has(#screen-result:not(.hidden)) .app-header h1,
+  .app:has(#screen-result:not(.hidden)) .app-header p,
+  .app:has(#screen-result:not(.hidden)) .progress-track{display:none;}
+  .app:has(#screen-result:not(.hidden)) .app-header{padding-bottom:20px;}
+  .app:has(#screen-result:not(.hidden)) .logo-mark{margin-bottom:0;}
+
   /* Lead-in lines above headings */
   .result-tag{
     font-size:16px;
     font-weight:500;
-    color:var(--muted);
-    margin-bottom:6px;
+    color:#fff;
+    margin-bottom:8px;
   }
   .result-name{
-    font-weight:800;
-    font-size:32px;
-    line-height:1.15;
-    color:var(--crimson);
-    margin:0 0 6px;
+    font-weight:300;
+    font-size:clamp(36px,9vw,52px);
+    line-height:1.1;
+    color:#fff;
+    margin:0 0 10px;
   }
   .result-sub{
-    font-size:16px;
-    color:var(--olive);
+    font-size:18px;
+    color:#fff;
     font-weight:600;
-    margin-bottom:20px;
   }
   .result-desc{
     font-size:16px;
@@ -345,10 +387,10 @@
     margin:4px calc(var(--pad) * -1) 28px;
     padding:28px var(--pad);
   }
-  .offer h3{font-size:19px;font-weight:700;line-height:1.3;color:var(--crimson);margin:0 0 10px;}
+  .offer h3{font-size:20px;font-weight:600;line-height:1.3;color:var(--crimson);margin:0 0 10px;}
   .offer p{font-size:16px !important;line-height:1.6;color:var(--body);margin:0 0 20px !important;}
   .offer-btns{display:flex;flex-direction:column;align-items:flex-start;gap:16px;}
-  .offer-main{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-family:'Montserrat',sans-serif;font-weight:600;font-size:16px;border-radius:999px;font-variant-numeric:tabular-nums;cursor:pointer;}
+  .offer-main{display:inline-flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;font-family:'Montserrat',sans-serif;font-weight:600;font-size:16px;border-radius:999px;font-variant-numeric:tabular-nums;cursor:pointer;}
   .offer-soon{font-size:15px !important;color:var(--crimson) !important;margin:14px 0 0 !important;}
   .offer-bundle{display:inline-block;font-size:16px;font-weight:600;color:var(--crimson);text-decoration:underline;text-underline-offset:4px;font-variant-numeric:tabular-nums;cursor:pointer;}
   .offer-bundle:hover{color:var(--crimson-deep);}
@@ -364,7 +406,12 @@
     from{opacity:0;}
     to{opacity:1;}
   }
+  @keyframes bloom{
+    from{opacity:0;transform:scale(.82) rotate(-14deg);}
+    to{opacity:1;transform:none;}
+  }
   #screen-result:not(.hidden) .result-name{animation:rise .55s var(--ease-out) both;}
+  #screen-result:not(.hidden) .field-result .mark{animation:bloom .8s var(--ease-out) .1s both;}
   #screen-result:not(.hidden) .result-sub,
   #screen-result:not(.hidden) .result-desc{animation:settle .5s ease-out .18s both;}
 
@@ -373,7 +420,7 @@
     body{padding:16px 12px;}
     .offer-btns{align-items:stretch;}
     .offer-bundle{text-align:center;}
-    .result-name{font-size:30px;}
+    
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -392,6 +439,21 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="joria-mark" viewBox="0 0 100 100">
+    <circle cx="50" cy="52" r="44" style="fill:var(--ring)"/>
+    <circle cx="50" cy="49" r="43" fill="none" stroke="#000" stroke-width="1.2"/>
+    <circle cx="50" cy="50" r="34" fill="#000"/>
+    <circle cx="33" cy="50" r="15" fill="#fff"/>
+    <circle cx="67" cy="50" r="15" fill="#fff"/>
+    <circle cx="50" cy="34" r="17" fill="#fff" stroke="#000" stroke-width=".6"/>
+    <circle cx="50" cy="66" r="17" fill="#fff" stroke="#000" stroke-width=".6"/>
+    <ellipse cx="45" cy="29" rx="2.2" ry="3.4" transform="rotate(25 45 29)" fill="#000"/>
+    <ellipse cx="28.5" cy="51" rx="2" ry="3.2" fill="#000"/>
+    <ellipse cx="72" cy="52" rx="2" ry="3.2" fill="#000"/>
+    <ellipse cx="56" cy="70" rx="2.2" ry="3.4" transform="rotate(25 56 70)" fill="#000"/>
+  </symbol>
+</svg>
 
 <div class="app">
 
@@ -405,8 +467,10 @@
 
   <!-- INTRO -->
   <div class="center-stage" id="screen-intro">
-    <h2>Before you start</h2>
-    <p>This quiz uses six patterns to describe how your stress response system, the HPA axis, might be behaving right now. This is a starting point (or continuation) for noticing what your body may be telling you.</p>
+    <div class="field field-mauve">
+      <div class="field-head"><h2>Before you start</h2><svg class="mark mark-sm" aria-hidden="true" focusable="false"><use href="#joria-mark"/></svg></div>
+      <p>This quiz uses six patterns to describe how your stress response system, the HPA axis, might be behaving right now. This is a starting point (or continuation) for noticing what your body may be telling you.</p>
+    </div>
     <div class="who-for"><strong>Who this is for:</strong> cis women, trans men, and nonbinary people with ovaries, whether or not you're currently cycling, including anyone navigating fertility, hormone therapy, or a body that doesn't fit a textbook pattern.</div>
     <p>13 questions. Select every answer that applies, more than one is common.</p>
     <button class="btn-next" id="startBtn" style="margin-top:8px;">Start the Quiz</button>
@@ -429,9 +493,11 @@
 
   <!-- EMAIL -->
   <div class="center-stage hidden" id="screen-email">
-    <div class="result-tag">Your result is ready</div>
-    <h2>Enter your first name and email to see your stress pattern.</h2>
-    <p>We will send you occasional updates and resources from Joria Integrative Healing.</p>
+    <div class="field field-olive">
+      <div class="result-tag">Your result is ready</div>
+      <h2>Enter your first name and email to see your stress pattern.</h2>
+      <p>We will send you occasional updates and resources from Joria Integrative Healing.</p>
+    </div>
     <form id="emailForm" class="email-form" novalidate>
       <label for="mcFname">First name</label>
       <input type="text" id="mcFname" name="FNAME" autocomplete="given-name" required>
@@ -446,9 +512,14 @@
 
   <!-- RESULT -->
   <div class="center-stage hidden" id="screen-result">
-    <div class="result-tag" id="resultTag"></div>
-    <div class="result-name" id="resultName"></div>
-    <div class="result-sub" id="resultSub"></div>
+    <div class="field field-result">
+      <svg class="mark" aria-hidden="true" focusable="false"><use href="#joria-mark"/></svg>
+      <div class="field-text">
+        <div class="result-tag" id="resultTag"></div>
+        <div class="result-name" id="resultName"></div>
+        <div class="result-sub" id="resultSub"></div>
+      </div>
+    </div>
     <div class="result-desc" id="resultDesc"></div>
 
     <div class="offer" id="offerBlock">
@@ -1090,6 +1161,7 @@ function showResult(){
   const topKey = computeTopKey();
   const r = results[topKey];
   renderOffer(topKey);
+  screenResult.dataset.pattern = topKey;
   document.getElementById('resultTag').textContent = 'Your stress pattern';
   document.getElementById('resultName').textContent = r.name;
   document.getElementById('resultSub').textContent = r.sub;
